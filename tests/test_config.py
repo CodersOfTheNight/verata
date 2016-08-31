@@ -11,3 +11,9 @@ def test_loading_existing():
 def test_loading_nonexisting():
     with pytest.raises(FileNotFoundError):
         Config("tests/data/i-dont-exist.yml")
+
+
+def test_info_fields():
+    cfg = Config("tests/data/simple_config.yml")
+    assert cfg.name == "Basic config"
+    assert cfg.desc is not None
