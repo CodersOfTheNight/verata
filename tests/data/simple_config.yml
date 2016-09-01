@@ -1,3 +1,5 @@
 ---
 name: Basic config
 description: So basic it is almost useless
+vars:
+        secret_val_1: {{ SECRET }}

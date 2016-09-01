@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from grazer.config import Config
@@ -17,3 +18,9 @@ def test_info_fields():
     cfg = Config("tests/data/simple_config.yml")
     assert cfg.name == "Basic config"
     assert cfg.desc is not None
+
+
+def test_secret_val():
+    os.environ["SECRET"] = "5ecret"
+    cfg = Config("tests/data/simple_config.yml")
+    assert cfg.get_val("secret_val_1") == "5ecret"
