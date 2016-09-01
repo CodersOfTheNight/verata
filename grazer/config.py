@@ -16,7 +16,7 @@ def pattern_to_regex(patt):
 class Page(object):
 
     """
-    Represent config subset for concrete page
+    Represents config subset for concrete page
     """
 
     def __init__(self, cfg):
@@ -25,6 +25,36 @@ class Page(object):
 
     def matches_link_pattern(self, url):
         return self.matcher.search(url) is not None
+
+
+class Mapping(object):
+
+    """
+    Maps concete text from html element to column
+    """
+
+    def __init__(self, key, pattern):
+        self.path = [self.create_node(part)
+                     for part in pattern.split("/")]
+
+    def create_node(self, data):
+        patt = re.compile(r"(?P<tag>\w+)(?P<query>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?")
+
+        m = patt.match(data)
+        tag = m.group("tag")
+
+        if m.group("query"):
+            q = {m.group("attr"): m.group("val")}
+        else:
+            q = None
+
+        def node(root):
+            return root.find(tag, q)
+
+        return node
+
+    def parse(self, root):
+        return reduce(lambda context, fn: fn(context), self.path, root).text
 
 
 class Config(object):
