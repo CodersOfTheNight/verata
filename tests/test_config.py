@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from grazer.config import Config
+from grazer.config import Config, Page
 
 
 def test_loading_existing():
@@ -24,3 +24,9 @@ def test_secret_val():
     os.environ["SECRET"] = "5ecret"
     cfg = Config("tests/data/simple_config.yml")
     assert cfg.get_val("secret_val_1") == "5ecret"
+
+
+def test_link_matcher():
+    page = Page({"link_pattern": "%://google.com/#q=%"})
+    result = page.matches_link_pattern("https://google.com/#q=test")
+    assert result
