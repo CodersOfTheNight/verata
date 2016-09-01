@@ -2,3 +2,4 @@ click
 python-dotenv
 pyyaml
 jinja2
+beautifulsoup4 >= 4.4
