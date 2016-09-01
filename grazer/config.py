@@ -22,9 +22,14 @@ class Page(object):
     def __init__(self, cfg):
         self._data = cfg
         self.matcher = pattern_to_regex(cfg["link_pattern"])
+        self._mappings = [Mapping(m["name"], m["path"])for m in cfg["mappings"]]
 
     def matches_link_pattern(self, url):
         return self.matcher.search(url) is not None
+
+    @property
+    def mappings(self):
+        return self._mappings
 
 
 class Mapping(object):
@@ -34,6 +39,7 @@ class Mapping(object):
     """
 
     def __init__(self, key, pattern):
+        self.key = key
         self.path = [self.create_node(part)
                      for part in pattern.split("/")]
 
@@ -54,7 +60,7 @@ class Mapping(object):
         return node
 
     def parse(self, root):
-        return reduce(lambda context, fn: fn(context), self.path, root).text
+        return {self.key: reduce(lambda context, fn: fn(context), self.path, root).text}
 
 
 class Config(object):
