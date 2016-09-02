@@ -22,7 +22,10 @@ class Page(object):
     def __init__(self, cfg):
         self._data = cfg
         self.matcher = pattern_to_regex(cfg["link_pattern"])
-        self._mappings = [Mapping(m["name"], m["path"])for m in cfg["mappings"]]
+        if "mappings" in cfg:
+            self._mappings = [Mapping(m["name"], m["path"])for m in cfg["mappings"]]
+        else:
+            self._mappings = []
 
     def matches_link_pattern(self, url):
         return self.matcher.search(url) is not None
