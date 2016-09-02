@@ -25,3 +25,8 @@ def test_extract_links():
                 "http://example.com/tillie"]
 
     assert links == expected
+
+
+def test_link_trimmer():
+    result = crawler.trim_link("http://example.com/lacie", "http://example.com")
+    assert result == "/lacie"
