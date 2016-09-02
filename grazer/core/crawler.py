@@ -36,6 +36,11 @@ def create(config):
         data = read_page(link)
         visited.append(link)
 
+        for page in pages:
+            if page.matches_link_pattern(link):
+                for mapping in page.mappings:
+                    yield mapping.parse(data)
+
         links = map(lambda x: root + x,
                     [trim_link(link, root)
                         for link in extract_links(data)])
