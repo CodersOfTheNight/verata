@@ -1,8 +1,11 @@
 import requests
 import re
+import logging
 
 from collections import deque
 from bs4 import BeautifulSoup
+
+logger = logging.getLogger(__name__)
 
 
 def get_session():
@@ -19,7 +22,12 @@ def extract_links(page):
 
 
 def trim_link(link, root):
-    return re.sub(root, "", link)
+    result = re.sub(root, "", link)
+    if result.startswith("http"):
+        # External link to another domain
+        return None
+
+    return result
 
 
 def create(config):
@@ -31,9 +39,16 @@ def create(config):
     queue = deque(["{0}/{1}".format(root, start)])
     visited = []
 
-    while not queue.empty():
+    while len(queue) > 0:
         link = queue.popleft()
-        data = read_page(link)
+        logger.info("Scrapping: {0}".format(link))
+        try:
+            data = read_page(session, link)
+        except Exception as ex:
+            logger.error(ex)
+            visited.append(link)
+            continue
+
         visited.append(link)
 
         for page in pages:
@@ -42,8 +57,9 @@ def create(config):
                     yield mapping.parse(data)
 
         links = map(lambda x: root + x,
-                    [trim_link(link, root)
-                        for link in extract_links(data)])
+                    filter(lambda x: x is not None,
+                           [trim_link(l, root)
+                            for l in extract_links(data)]))
 
         for link in links:
             if link not in visited:
