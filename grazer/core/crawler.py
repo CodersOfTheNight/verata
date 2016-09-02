@@ -1,5 +1,7 @@
 import requests
 import re
+
+from collections import deque
 from bs4 import BeautifulSoup
 
 
@@ -26,6 +28,18 @@ def create(config):
     pages = config.pages
     session = get_session()
 
-    data = read_page("{0}/{1}".format(root, start))
+    queue = deque(["{0}/{1}".format(root, start)])
+    visited = []
 
-    links = extract_links(data)
+    while not queue.empty():
+        link = queue.popleft()
+        data = read_page(link)
+        visited.append(link)
+
+        links = map(lambda x: root + x,
+                    [trim_link(link, root)
+                        for link in extract_links(data)])
+
+        for link in links:
+            if link not in visited:
+                queue.append(link)
