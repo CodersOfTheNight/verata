@@ -11,3 +11,9 @@ def test_scrape_python_org():
     worker = crawler.create(cfg)
     (key, val), link = next(worker)
     assert key == "title"
+
+
+def test_user_agent():
+    session = crawler.get_session()
+    resp = session.get("http://httpbin.org/user-agent", headers={"User-Agent": "test-agent"})
+    assert resp.json()["user-agent"] == "test-agent"
