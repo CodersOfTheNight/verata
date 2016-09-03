@@ -106,6 +106,15 @@ class Config(object):
         return self._data["site_root"]
 
     @property
+    def domain(self):
+        root = self.root
+        m = re.search(r"https?://(www\.)?(?P<domain>(\w|[.-_])+)", root)
+        if m:
+            return m.group("domain")
+        else:
+            return root
+
+    @property
     def start_page(self):
         return self._data["start_page"]
 

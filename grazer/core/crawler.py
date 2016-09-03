@@ -21,13 +21,14 @@ def extract_links(page):
     return [a.get("href") for a in page.find_all("a")]
 
 
-def trim_link(link, root):
-    result = re.sub(root, "", link)
-    if result.startswith("http"):
+def trim_link(link, domain):
+    if domain not in link:
         # External link to another domain
         return None
 
-    return result
+    link = link.replace("://", "")
+    start, end = link.split("/", 1)
+    return "/" + end
 
 
 def create(config):
