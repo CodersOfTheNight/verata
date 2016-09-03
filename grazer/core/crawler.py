@@ -1,5 +1,4 @@
 import requests
-import re
 import logging
 
 from collections import deque
@@ -33,6 +32,7 @@ def trim_link(link, domain):
 
 def create(config):
     root = config.root
+    domain = config.domain
     start = config.start_page
     pages = config.pages
     session = get_session()
@@ -60,7 +60,7 @@ def create(config):
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,
-                           [trim_link(l, root)
+                           [trim_link(l, domain)
                             for l in extract_links(data)]))
 
         for link in links:
