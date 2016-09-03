@@ -25,3 +25,31 @@ pages:
       - name: title
         path: h3[class="event-title"]/a
 ```
+
+
+It support login to website as well...
+--------------------------------------
+```yaml
+name: A super secret page
+description: Only we have access
+site_root: http://page.secret
+start_page: /restricted_area
+auth:
+  url: /login
+  method: POST
+  params:
+    user: {{ secret_user }}
+    password: {{ secret_password }}
+```
+
+Locked web is a big part of the internet, however it is rarely accessed by scrappers.
+This tool gives you possibility to login to some of them (CAPTCHA is a bit pain).
+
+Variables `secret_user` and `secret_password` are being picket from file `.env`
+which would look like this:
+```bash
+secret_user=demo
+secret_password=demo
+```
+
+It is done like this, because usually there are some variables we don't want to expose in config and put to any source control system.
