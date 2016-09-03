@@ -14,5 +14,5 @@ setup(name="verata",
       test_suite="pytest",
       tests_require=["pytest"],
       setup_requires=["pytest-runner"],
-      entry_points={"console_scripts": ["grazer = grazer.run:main"]}
+      entry_points={"console_scripts": ["verata = grazer.run:main"]}
       )
