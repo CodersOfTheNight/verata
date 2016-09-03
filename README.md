@@ -5,6 +5,10 @@ Why even consider?
 ------------------
 It works just by providing correct config - no coding is required
 
+How to install
+--------------
+`pip install verata` 
+
 Config example
 --------------
 ```yaml
