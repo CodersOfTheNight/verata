@@ -1,5 +1,5 @@
 # Verata
-Yet another scraper
+Yet another scraper [![Build Status](https://travis-ci.org/CodersOfTheNight/verata.svg?branch=master)](https://travis-ci.org/CodersOfTheNight/verata)
 
 Why even consider?
 ------------------
