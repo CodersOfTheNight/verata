@@ -123,5 +123,19 @@ class Config(object):
         return [Page(cfg)
                 for cfg in self._data["pages"]]
 
+    @property
+    def headers(self):
+        if "headers" in self._data:
+            return self._data["headers"]
+        else:
+            return None
+
+    @property
+    def cookies(self):
+        if "cookies" in self._data:
+            return self._data["cookies"]
+        else:
+            return None
+
     def get_val(self, key):
         return self._data["vars"][key]

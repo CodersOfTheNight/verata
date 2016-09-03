@@ -7,12 +7,17 @@ from bs4 import BeautifulSoup
 logger = logging.getLogger(__name__)
 
 
-def get_session():
-    return requests.Session()
+def get_session(cookies=None):
+    session = requests.Session()
+    if cookies:
+        for cookie in cookies:
+            requests.utils.add_dict_to_cookiejar(session.cookies,
+                                                 cookie)
+    return session
 
 
-def read_page(session, url):
-    raw = session.get(url).text
+def read_page(session, url, headers=None):
+    raw = session.get(url, headers=headers).text
     return BeautifulSoup(raw, "html.parser")
 
 
@@ -35,7 +40,8 @@ def create(config):
     domain = config.domain
     start = config.start_page
     pages = config.pages
-    session = get_session()
+    session = get_session(config.cookies)
+    headers = config.headers
 
     queue = deque(["{0}/{1}".format(root, start)])
     visited = []
@@ -44,9 +50,9 @@ def create(config):
         link = queue.popleft()
         logger.info("Scrapping: {0}".format(link))
         try:
-            data = read_page(session, link)
+            data = read_page(session, link, headers)
         except Exception as ex:
-            logger.error(ex)
+            logger.exception(ex)
             visited.append(link)
             continue
 
