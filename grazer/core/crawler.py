@@ -45,6 +45,13 @@ def create(config):
     queue = deque(["{0}/{1}".format(root, start)])
     visited = []
 
+    if config.has_auth():
+        auth = config.auth
+        req = requests.Request(auth.method, auth.url, data=auth.params)
+        resp = session.send(req.prepare())
+        if resp.status_code > 400:
+            raise RuntimeError("Unable to do authentification")
+
     while len(queue) > 0:
         link = queue.popleft()
         logger.info("Scrapping: {0}".format(link))

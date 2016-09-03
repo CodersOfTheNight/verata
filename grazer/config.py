@@ -13,6 +13,31 @@ def pattern_to_regex(patt):
     return re.compile(patt)
 
 
+class Auth(object):
+
+    """
+    Config used to define authentification params
+    """
+
+    def __init__(self, cfg):
+        self._data = cfg
+
+    @property
+    def method(self):
+        if "method" in self._data:
+            return self._data["method"]
+        else:
+            return "POST"
+
+    @property
+    def url(self):
+        return self._data["url"]
+
+    @property
+    def params(self):
+        return self._data["params"]
+
+
 class Page(object):
 
     """
@@ -136,6 +161,13 @@ class Config(object):
             return self._data["cookies"]
         else:
             return None
+
+    def has_auth(self):
+        return "auth" in self._data
+
+    @property
+    def auth(self):
+        return Auth(self._data["auth"])
 
     def get_val(self, key):
         return self._data["vars"][key]
