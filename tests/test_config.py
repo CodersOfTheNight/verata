@@ -11,7 +11,7 @@ def test_loading_existing():
 
 
 def test_loading_nonexisting():
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(IOError):
         Config("tests/data/i-dont-exist.yml")
 
 
@@ -49,6 +49,6 @@ def test_mapping():
     root = BeautifulSoup(doc, "html.parser")
     m = Mapping("link1", "a[id=\"link1\"]")
     result = m.parse(root)
-    expected = {"link1": root.find("a", {"id": "link1"}).text}
+    expected = [("link1", root.find("a", {"id": "link1"}).text)]
 
     assert result == expected

@@ -54,7 +54,8 @@ def create(config):
         for page in pages:
             if page.matches_link_pattern(link):
                 for mapping in page.mappings:
-                    yield mapping.parse(data)
+                    for result in mapping.parse(data):
+                        yield result, link
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,

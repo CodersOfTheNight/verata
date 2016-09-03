@@ -58,12 +58,18 @@ class Mapping(object):
             q = None
 
         def node(root):
-            return root.find(tag, q)
+            return root.findAll(tag, q)
 
         return node
 
     def parse(self, root):
-        return {self.key: reduce(lambda context, fn: fn(context), self.path, root).text}
+        results = []
+        context = [root]
+        for path in self.path:
+            for node in context:
+                for out in path(node):
+                    results.append(out)
+        return [(self.key, result.text) for result in results]
 
 
 class Config(object):
