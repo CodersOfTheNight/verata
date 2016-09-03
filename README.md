@@ -9,6 +9,21 @@ How to install
 --------------
 `pip install verata` 
 
+Supported versions
+------------------
+It is tested on Python versions:
+- 2.7
+- 3.4
+- 3.5
+
+Usage
+-----
+`verata --config=config-file.yml`
+
+Optionally you can setup environment file:
+
+`verata --config=config-file.yml --env=.secret-env`
+
 Config example
 --------------
 ```yaml
