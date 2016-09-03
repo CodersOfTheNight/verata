@@ -6,7 +6,7 @@ from grazer.version import get_version
 
 install_reqs = list(parse_requirements("requirements.txt", session={}))
 
-setup(name="grazer",
+setup(name="verata",
       version=get_version(),
       author="Šarūnas Navickas",
       packages=["grazer"],

@@ -1,4 +1,4 @@
-# web-grazer
+# Verata
 Yet another scraper
 
 Why even consider?
