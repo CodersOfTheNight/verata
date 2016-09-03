@@ -10,9 +10,8 @@ logger = logging.getLogger(__name__)
 def get_session(cookies=None):
     session = requests.Session()
     if cookies:
-        for cookie in cookies:
-            requests.utils.add_dict_to_cookiejar(session.cookies,
-                                                 cookie)
+        requests.utils.add_dict_to_cookiejar(session.cookies,
+                                             cookies)
     return session
 
 
