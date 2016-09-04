@@ -12,3 +12,6 @@ before_install:
 script:
   - flake8 grazer
   - python setup.py test
+
+after_success:
+  - coveralls
