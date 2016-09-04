@@ -1,5 +1,6 @@
 ---
 name: Basic config
 description: So basic it is almost useless
+site_root: https://test.com
 vars:
-        secret_val_1: {{ SECRET }}
+  secret_val_1: {{ SECRET }}
