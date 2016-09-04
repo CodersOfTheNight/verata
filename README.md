@@ -1,5 +1,7 @@
 # Verata
-Yet another scraper [![Build Status](https://travis-ci.org/CodersOfTheNight/verata.svg?branch=master)](https://travis-ci.org/CodersOfTheNight/verata)
+Yet another scraper
+[![Build Status](https://travis-ci.org/CodersOfTheNight/verata.svg?branch=master)](https://travis-ci.org/CodersOfTheNight/verata)
+[![Coverage Status](https://coveralls.io/repos/github/CodersOfTheNight/verata/badge.svg?branch=master)](https://coveralls.io/github/CodersOfTheNight/verata?branch=master)
 
 Why even consider?
 ------------------
