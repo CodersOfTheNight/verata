@@ -3,5 +3,12 @@ python:
 - 2.7
 - 3.4
 - 3.5
+- pypy
+- pypy3
+before_install:
+  - pip install flake8
+  - pip install coveralls
 
-script: python setup.py test
+script:
+  - flake8 grazer
+  - python setup.py test
