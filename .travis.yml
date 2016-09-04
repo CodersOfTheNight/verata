@@ -11,7 +11,7 @@ before_install:
 
 script:
   - flake8 grazer
-  - python setup.py test
+  - coverage run --source=grazer setup.py test
 
 after_success:
   - coveralls
