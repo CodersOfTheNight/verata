@@ -48,7 +48,8 @@ class Page(object):
         self._data = cfg
         self.matcher = pattern_to_regex(cfg["link_pattern"])
         if "mappings" in cfg:
-            self._mappings = [Mapping(m["name"], m["path"])for m in cfg["mappings"]]
+            self._mappings = [Mapping(m["name"], m["path"])
+                              for m in cfg["mappings"]]
         else:
             self._mappings = []
 
@@ -72,12 +73,13 @@ class Mapping(object):
                      for part in pattern.split("/")]
 
     def create_node(self, data):
-        patt = re.compile(r"(?P<tag>\w+)(?P<query>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?")
+        p = r"(?P<tag>\w+)(?P<q>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?"
+        patt = re.compile(p)
 
         m = patt.match(data)
         tag = m.group("tag")
 
-        if m.group("query"):
+        if m.group("q"):
             q = {m.group("attr"): m.group("val")}
         else:
             q = None
