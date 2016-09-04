@@ -61,6 +61,10 @@ def test_mapping():
 
 class TestConfig(object):
 
+    def test_text_repr(self, simple_config):
+        assert (str(simple_config) ==
+                "Basic config: So basic it is almost useless")
+
     def test_domain(self, simple_config):
         domain = simple_config.domain
         assert domain == "test.com"
