@@ -91,6 +91,14 @@ class TestConfig(object):
         cfg._data["cookies"] = {"test": "1"}
         assert cfg.cookies == {"test": "1"}
 
+    def test_default_parser(self, simple_config):
+        assert simple_config.parser == "html.parser"
+
+    def test_custom_parser(self, simple_config):
+        cfg = simple_config
+        cfg._data["parser"] = "lxml"
+        assert cfg.parser == "lxml"
+
 
 class TestAuth(object):
 
