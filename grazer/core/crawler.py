@@ -15,9 +15,9 @@ def get_session(cookies=None):
     return session
 
 
-def read_page(session, url, headers=None):
+def read_page(session, url, parser, headers=None):
     raw = session.get(url, headers=headers).text
-    return BeautifulSoup(raw, "html.parser")
+    return BeautifulSoup(raw, parser)
 
 
 def extract_links(page):
@@ -41,6 +41,7 @@ def create(config):
     pages = config.pages
     session = get_session(config.cookies)
     headers = config.headers
+    parser = config.parser
 
     queue = deque(["{0}/{1}".format(root, start)])
     visited = []
@@ -56,7 +57,7 @@ def create(config):
         link = queue.popleft()
         logger.info("Scrapping: {0}".format(link))
         try:
-            data = read_page(session, link, headers)
+            data = read_page(session, link, parser, headers)
         except Exception as ex:
             logger.exception(ex)
             visited.append(link)

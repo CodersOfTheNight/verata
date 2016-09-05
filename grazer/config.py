@@ -171,5 +171,12 @@ class Config(object):
     def auth(self):
         return Auth(self._data["auth"])
 
+    @property
+    def parser(self):
+        if "parser" in self._data:
+            return self._data["parser"]
+        else:
+            return "html.parser"
+
     def get_val(self, key):
         return self._data["vars"][key]
