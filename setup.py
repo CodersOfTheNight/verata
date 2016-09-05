@@ -9,6 +9,8 @@ install_reqs = list(parse_requirements("requirements.txt", session={}))
 setup(name="verata",
       version=get_version(),
       author="Šarūnas Navickas",
+      author_email="zaibacu@gmail.com",
+      url="https://github.com/CodersOfTheNight/verata",
       packages=["grazer"],
       install_requires=[str(ir.req) for ir in install_reqs],
       test_suite="pytest",
