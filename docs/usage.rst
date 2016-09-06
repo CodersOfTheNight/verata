@@ -17,7 +17,7 @@ proxies         (Optional, Array)       List of http proxies to be used for requ
 pages           (Array)                 Consists an array of `Page`
 parser          (Optional)              Select parser for web pages. Default: html.parser, or you can use lxml
 auth            (Optional)              `Auth` object
-============     ================       ======================================
+============    ================       ======================================
 
 
 Auth
