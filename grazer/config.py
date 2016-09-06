@@ -1,6 +1,7 @@
 import os
 import re
 import yaml
+import importlib
 
 from functools import reduce
 from jinja2 import Template
@@ -191,7 +192,8 @@ class Config(object):
             module = self._data["reader"]
         else:
             module = "grazer.readers.local"
-        return __import__(module, fromlist=[""])
+
+        return importlib.import_module(module)
 
     def get_val(self, key):
         return self._data["vars"][key]
