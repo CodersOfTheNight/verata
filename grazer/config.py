@@ -178,5 +178,12 @@ class Config(object):
         else:
             return "html.parser"
 
+    @property
+    def proxies(self):
+        if "proxies" in self._data:
+            return self._data["proxies"]
+        else:
+            return None
+
     def get_val(self, key):
         return self._data["vars"][key]

@@ -99,6 +99,14 @@ class TestConfig(object):
         cfg._data["parser"] = "lxml"
         assert cfg.parser == "lxml"
 
+    def test_default_proxies(self, simple_config):
+        assert simple_config.proxies is None
+
+    def test_custom_proxies(self, simple_config):
+        cfg = simple_config
+        cfg._data["proxies"] = ["http://10.10.10.10", "http://11.11.11.11"]
+        assert cfg.proxies == ["http://10.10.10.10", "http://11.11.11.11"]
+
 
 class TestAuth(object):
 
