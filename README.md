@@ -2,6 +2,7 @@
 Yet another scraper
 [![Build Status](https://travis-ci.org/CodersOfTheNight/verata.svg?branch=master)](https://travis-ci.org/CodersOfTheNight/verata)
 [![Coverage Status](https://coveralls.io/repos/github/CodersOfTheNight/verata/badge.svg?branch=master)](https://coveralls.io/github/CodersOfTheNight/verata?branch=master)
+[![Documentation Status](https://readthedocs.org/projects/verata/badge/?version=latest)](http://verata.readthedocs.io/en/latest/?badge=latest)
 
 Why even consider?
 ------------------
@@ -25,6 +26,10 @@ Usage
 Optionally you can setup environment file:
 
 `verata --config=config-file.yml --env=.secret-env`
+
+Docs
+----
+[http://verata.readthedocs.io](http://verata.readthedocs.io/en/latest/)
 
 Config example
 --------------
