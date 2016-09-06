@@ -2,7 +2,6 @@ import requests
 import logging
 
 from collections import deque
-from bs4 import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 
@@ -13,11 +12,6 @@ def get_session(cookies=None):
         requests.utils.add_dict_to_cookiejar(session.cookies,
                                              cookies)
     return session
-
-
-def read_page(session, url, parser, headers=None, proxies=None):
-    raw = session.get(url, headers=headers, proxies=proxies).text
-    return BeautifulSoup(raw, parser)
 
 
 def extract_links(page):
@@ -43,6 +37,7 @@ def create(config):
     headers = config.headers
     proxies = config.proxies
     parser = config.parser
+    reader = config.reader
 
     queue = deque(["{0}/{1}".format(root, start)])
     visited = []
@@ -58,7 +53,7 @@ def create(config):
         link = queue.popleft()
         logger.info("Scrapping: {0}".format(link))
         try:
-            data = read_page(session, link, parser, headers, proxies)
+            data = reader.read_page(session, link, parser, headers, proxies)
         except Exception as ex:
             logger.exception(ex)
             visited.append(link)

@@ -185,5 +185,13 @@ class Config(object):
         else:
             return None
 
+    @property
+    def reader(self):
+        if "reader" in self._data:
+            module = self._data["reader"]
+        else:
+            module = "grazer.readers.local"
+        return __import__(module, fromlist=[""])
+
     def get_val(self, key):
         return self._data["vars"][key]
