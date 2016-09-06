@@ -8,3 +8,4 @@ Contents:
 
 	installing
 	usage
+        config
