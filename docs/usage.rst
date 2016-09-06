@@ -4,20 +4,20 @@ Configuration
 Config
 ------
 
-============    ================       ======================================
+============    =================       ======================================
 Value           Notes                   Description
-============    ================       ======================================
-name                                    A user-friendly name for configuration
-description                             Description about configuration
+============    =================       ======================================
+name                                    A user-friendly name for config
+description                             Description about config
 site_root                               Site url which we will be scrapping
 start_page                              Where to start our scrapping
 cookies         (Optional, Array)       Add cookies to our requests
 headers         (Optional, Array)       Add headers to our requests
-proxies         (Optional, Array)       List of http proxies to be used for requests
+proxies         (Optional, Array)       Add http proxies to our requests
 pages           (Array)                 Consists an array of `Page`
-parser          (Optional)              Select parser for web pages. Default: html.parser, or you can use lxml
+parser          (Optional)              Select parser for web pages.
 auth            (Optional)              `Auth` object
-============    ================       ======================================
+============    =================       ======================================
 
 
 Auth
