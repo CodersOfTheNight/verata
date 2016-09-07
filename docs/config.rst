@@ -1,4 +1,3 @@
- 
 Configuration
 =============
 
@@ -20,9 +19,31 @@ parser          (Optional)              Select parser for web pages.
 auth            (Optional)              `Auth` object
 ============    =================       ======================================
 
+.. code-block:: yaml
+
+    name: Python Org scrapper
+    description: Just scrape it for testing
+    site_root: https://www.python.org
+    start_page: /blogs
+    cookies:
+      authToken: abc1234
+      remember: true
+    headers:
+      "User-Agent": "Mozilla/5"
+    auth: ...
+    pages:
+      - ...
+
 
 Auth
 ----
+.. code-block:: yaml
+
+      url: /login
+      method: POST
+      params:
+        user: {{ secret_user }}
+        password: {{ secret_password }}
 
 ============    ================       ======================================
 Value           Notes                   Description
@@ -43,6 +64,13 @@ link_pattern                            Pattern which allows to detect which pag
 mappings        (Array)                 Array of `Mapping`
 ============    ================       ======================================
 
+.. code-block:: yaml
+
+    - name: Blog
+      link_pattern: /blog%
+      mappings:
+        - ...
+
 Mapping
 -------
 
@@ -52,3 +80,9 @@ Value           Notes                   Description
 name                                    Name of mapping
 path                                    Path to element
 ============    ================       ======================================
+
+
+.. code-block:: yaml
+
+   - name: title
+     path: h3[class="event-title"]/a
