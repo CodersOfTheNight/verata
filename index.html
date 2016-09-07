@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Verata by CodersOfTheNight</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Verata</h1>
+        <p>Yet another scraper</p>
+
+        <p class="view"><a href="https://github.com/CodersOfTheNight/verata">View the Project on GitHub <small>CodersOfTheNight/verata</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/CodersOfTheNight/verata/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/CodersOfTheNight/verata/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/CodersOfTheNight/verata">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="verata" class="anchor" href="#verata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Verata</h1>
+
+<p>Yet another scraper
+<a href="https://travis-ci.org/CodersOfTheNight/verata"><img src="https://travis-ci.org/CodersOfTheNight/verata.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/github/CodersOfTheNight/verata?branch=master"><img src="https://coveralls.io/repos/github/CodersOfTheNight/verata/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="http://verata.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/verata/badge/?version=latest" alt="Documentation Status"></a></p>
+
+<h2>
+<a id="why-even-consider" class="anchor" href="#why-even-consider" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why even consider?</h2>
+
+<p>It works just by providing correct config - no coding is required</p>
+
+<h2>
+<a id="how-to-install" class="anchor" href="#how-to-install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to install</h2>
+
+<p><code>pip install verata</code> </p>
+
+<h2>
+<a id="supported-versions" class="anchor" href="#supported-versions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported versions</h2>
+
+<p>It is tested on Python versions:</p>
+
+<ul>
+<li>2.7</li>
+<li>3.4</li>
+<li>3.5</li>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><code>verata --config=config-file.yml</code></p>
+
+<p>Optionally you can setup environment file:</p>
+
+<p><code>verata --config=config-file.yml --env=.secret-env</code></p>
+
+<h2>
+<a id="docs" class="anchor" href="#docs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docs</h2>
+
+<p><a href="http://verata.readthedocs.io/en/latest/">http://verata.readthedocs.io</a></p>
+
+<h2>
+<a id="config-example" class="anchor" href="#config-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Config example</h2>
+
+<div class="highlight highlight-source-yaml"><pre>---
+<span class="pl-ent">name:</span> <span class="pl-s">Python Org scrapper</span>
+<span class="pl-ent">description:</span> <span class="pl-s">Just scrape it for testing</span>
+<span class="pl-ent">site_root:</span> <span class="pl-s">https://www.python.org</span>
+<span class="pl-ent">start_page:</span> <span class="pl-s">/blogs</span>
+<span class="pl-ent">cookies:</span>
+  <span class="pl-ent">authToken:</span> <span class="pl-s">abc1234</span>
+  <span class="pl-ent">remember:</span> <span class="pl-c1">true</span>
+<span class="pl-ent">headers:</span>
+  <span class="pl-ent">"User-Agent":</span> <span class="pl-s"><span class="pl-pds">"</span>Mozilla/5<span class="pl-pds">"</span></span>
+<span class="pl-ent">pages:</span>
+  - <span class="pl-ent">name:</span> <span class="pl-s">Blog</span>
+    <span class="pl-ent">link_pattern:</span> <span class="pl-s">/blog%</span>
+    <span class="pl-ent">mappings:</span>
+      - <span class="pl-ent">name:</span> <span class="pl-s">title</span>
+        <span class="pl-ent">path:</span> <span class="pl-s">h3[class="event-title"]/a</span></pre></div>
+
+<h2>
+<a id="it-support-login-to-website-as-well" class="anchor" href="#it-support-login-to-website-as-well" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>It support login to website as well...</h2>
+
+<div class="highlight highlight-source-yaml"><pre><span class="pl-ent">name:</span> <span class="pl-s">A super secret page</span>
+<span class="pl-ent">description:</span> <span class="pl-s">Only we have access</span>
+<span class="pl-ent">site_root:</span> <span class="pl-s">http://page.secret</span>
+<span class="pl-ent">start_page:</span> <span class="pl-s">/restricted_area</span>
+<span class="pl-ent">auth:</span>
+  <span class="pl-ent">url:</span> <span class="pl-s">/login</span>
+  <span class="pl-ent">method:</span> <span class="pl-s">POST</span>
+  <span class="pl-ent">params:</span>
+    <span class="pl-ent">user:</span> <span class="pl-s">{{ secret_user }}</span>
+    <span class="pl-ent">password:</span> <span class="pl-s">{{ secret_password }}</span></pre></div>
+
+<p>Locked web is a big part of the internet, however it is rarely accessed by scrappers.
+This tool gives you possibility to login to some of them (CAPTCHA is a bit pain).</p>
+
+<p>Variables <code>secret_user</code> and <code>secret_password</code> are being picket from file <code>.env</code>
+which would look like this:</p>
+
+<div class="highlight highlight-source-shell"><pre>secret_user=demo
+secret_password=demo</pre></div>
+
+<p>It is done like this, because usually there are some variables we don't want to expose in config and put to any source control system.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/CodersOfTheNight">CodersOfTheNight</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
