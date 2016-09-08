@@ -1,0 +1,29 @@
+Usage
+=====
+
+Pattern matching for Pages
+--------------------------
+Why is it needed? Pattern matching checks URL and understands which page(s)
+logic we need to apply for concrete case.
+
+Simplified wild cards are used for this task. Syntax is listed bellow:
+
+======= ==============  ===========================
+Symbol  Translates to   Explanation
+======= ==============  ============================
+%       .*?             Matches N random symbols
+*       .               Matches single random symbol
+======= ==============  ============================
+
+Path matching for data retrieval
+--------------------------------
+It is used to extract data from page.
+Simplified xpath-alike expressions are used for this task.
+
+General syntax looks like:
+
+<TAG>[<ATTRIBUTE>="<VALUE>"]/<TAG>[<ATTRIBUTE>="<VALUE>"]/...
+
+Each "/" symbolizes new child matching, part inside "[<...>]" is optional, it 
+can be skipped if you have no intention to query inside these tags
+, eg.: if you want to get *all* links in the page.
