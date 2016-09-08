@@ -8,12 +8,12 @@ logic we need to apply for concrete case.
 
 Simplified wild cards are used for this task. Syntax is listed bellow:
 
-======= ==============  ===========================
-Symbol  Translates to   Explanation
-======= ==============  ============================
-%       .*?             Matches N random symbols
-*       .               Matches single random symbol
-======= ==============  ============================
+=======  ==============  =============================
+Symbol   Translates to   Explanation
+=======  ==============  =============================
+\%        .*?             Matches N random symbols
+\*        .               Matches single random symbol
+=======  ==============  =============================
 
 Path matching for data retrieval
 --------------------------------
