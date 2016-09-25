@@ -91,7 +91,8 @@ class Mapping(object):
         def selector(lst):
             s = m.group("selector")
             if s:
-                return [lst[int(s)]]
+                sel = int(s)
+                return [lst[sel]] if sel < len(lst) else []
             else:
                 return lst
 
