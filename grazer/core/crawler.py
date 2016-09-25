@@ -56,6 +56,7 @@ def create(config):
         logger.info("Scrapping: {0}".format(link))
         try:
             data = reader.read_page(session, link, parser, headers, proxies)
+            logger.debug("Retrieved data: {0}".format(data))
         except Exception as ex:
             logger.exception(ex)
             visited.append(link)
@@ -73,6 +74,8 @@ def create(config):
                     filter(lambda x: x is not None,
                            [trim_link(l, domain)
                             for l in extract_links(data)]))
+
+        logger.debug("Extracted links: {0}".format(links))
 
         for link in links:
             if link not in visited:
