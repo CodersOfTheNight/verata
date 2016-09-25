@@ -19,8 +19,12 @@ def extract_links(page):
 
 
 def trim_link(link, domain):
+    if not link.startswith("http"):
+        return ("/" if link[0] != "/" else "") + link
+
     if domain not in link:
         # External link to another domain
+        logger.debug("Link {0} is not in {1} domain".format(link, domain))
         return None
 
     link = link.replace("://", "")
@@ -75,8 +79,8 @@ def create(config):
                            [trim_link(l, domain)
                             for l in extract_links(data)]))
 
-        logger.debug("Extracted links: {0}".format(links))
-
         for link in links:
             if link not in visited:
                 queue.append(link)
+
+        logger.debug("Queued links: {0}".format(queue))
