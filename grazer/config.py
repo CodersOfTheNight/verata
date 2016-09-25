@@ -74,7 +74,10 @@ class Mapping(object):
                      for part in pattern.split("/")]
 
     def create_node(self, data):
-        p = r"(?P<tag>\w+)(?P<q>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?(\{(?P<selector>\d+)\})?"
+        tag_part = r"(?P<tag>\w+)"
+        attr_part = r"(?P<q>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?"
+        selector_part = r"(\{(?P<selector>\d+)\})?"
+        p = tag_part + attr_part + selector_part
         patt = re.compile(p)
 
         m = patt.match(data)
