@@ -27,3 +27,18 @@ General syntax looks like:
 Each "/" symbolizes new child matching, part inside "[<...>]" is optional, it 
 can be skipped if you have no intention to query inside these tags
 , eg.: if you want to get *all* links in the page.
+
+For selecting concrete  element from matches array, use "{#n}" syntax, eg.
+if we have :
+
+.. code-block:: html
+
+  <div class="menu">
+    <a href=#1>Link1</a>
+    <a href=#2>Link2</a>
+    <a href=#3>Link3</a>
+  </div>
+
+following query can be used to retrieve "Link2":
+div[class="menu"]/a{1}
+where "a{1}" indicates that we want to retrieve all links, and get 2nd link from that array
