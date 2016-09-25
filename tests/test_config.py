@@ -10,6 +10,21 @@ def simple_config():
     return Config("tests/data/simple_config.yml")
 
 
+@pytest.fixture
+def simple_html():
+    return """
+    <html><head><title>The Dormouse's story</title></head>
+    <body>
+    <p class="title"><b>The Dormouse's story</b></p>
+
+    <p class="story">Once upon a time there were three little sisters; and their names were
+    <a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
+    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
+    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
+    and they lived at the bottom of a well.</p>
+    """
+
+
 def test_loading_existing():
     cfg = Config("tests/data/simple_config.yml")
     assert cfg is not None
@@ -38,20 +53,8 @@ def test_link_matcher():
     assert result
 
 
-def test_mapping():
-    doc = """
-    <html><head><title>The Dormouse's story</title></head>
-    <body>
-    <p class="title"><b>The Dormouse's story</b></p>
-
-    <p class="story">Once upon a time there were three little sisters; and their names were
-    <a href="http://example.com/elsie" class="sister" id="link1">Elsie</a>,
-    <a href="http://example.com/lacie" class="sister" id="link2">Lacie</a> and
-    <a href="http://example.com/tillie" class="sister" id="link3">Tillie</a>;
-    and they lived at the bottom of a well.</p>
-    """
-
-    root = BeautifulSoup(doc, "html.parser")
+def test_mapping(simple_html):
+    root = BeautifulSoup(simple_html, "html.parser")
     m = Mapping("link1", "a[id=\"link1\"]")
     result = m.parse(root)
     expected = [("link1", root.find("a", {"id": "link1"}).text)]
@@ -106,6 +109,14 @@ class TestConfig(object):
         cfg = simple_config
         cfg._data["proxies"] = ["http://10.10.10.10", "http://11.11.11.11"]
         assert cfg.proxies == ["http://10.10.10.10", "http://11.11.11.11"]
+
+    def test_selecting_tag_from_list(self, simple_html):
+        root = BeautifulSoup(simple_html, "html.parser")
+        m = Mapping("link", "a{2}")
+        result = m.parse(root)
+        expected = [("link", root.findAll("a")[2].text)]
+
+        assert result == expected
 
 
 class TestAuth(object):
