@@ -2,6 +2,8 @@ import requests
 import logging
 
 from collections import deque
+from functools import reduce
+from copy import copy
 
 logger = logging.getLogger(__name__)
 
@@ -30,9 +32,14 @@ def trim_link(link, domain):
         logger.debug("Link {0} is not in {1} domain".format(link, domain))
         return None
 
-    link = link.replace("://", "")
-    start, end = link.split("/", 1)
-    return "/" + end
+    prefixes = ["https://", "http://", "://"]
+    original_link = copy(link)
+    link = reduce(lambda a, b: a.replace(b, ""), prefixes, link)
+    if "/" in link:
+        start, end = link.split("/", 1)
+        return "/" + end
+    else:
+        return original_link
 
 
 def create(config):
