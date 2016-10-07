@@ -30,3 +30,8 @@ def test_extract_links():
 def test_link_trimmer():
     result = crawler.trim_link("http://example.com/lacie", "http://example.com")
     assert result == "/lacie"
+
+
+def test_trim_link_without_trailing_slash():
+    result = crawler.trim_link("http://example.com", "http://example.com")
+    assert result == "http://example.com"
