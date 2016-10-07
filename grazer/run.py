@@ -10,8 +10,12 @@ from grazer.core import crawler
 @click.option("--env", default=find_dotenv())
 @click.option("--config")
 @click.option("--log_level", default="INFO")
-def main(env, config, log_level):
-    logging.basicConfig(level=getattr(logging, log_level))
+@click.option("--debug/--info", default=False)
+def main(env, config, log_level, debug):
+    if debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=getattr(logging, log_level))
     load_dotenv(env)
     cfg = Config(config)
     for record, link in crawler.create(cfg):
