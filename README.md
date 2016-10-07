@@ -21,11 +21,11 @@ It is tested on Python versions:
 
 Usage
 -----
-`verata --config=config-file.yml`
+`verata --config=config-file.yml --output=<output_file>`
 
 Optionally you can setup environment file:
 
-`verata --config=config-file.yml --env=.secret-env`
+`verata --config=config-file.yml --env=.secret-env --output=<output_file>`
 
 Docs
 ----
