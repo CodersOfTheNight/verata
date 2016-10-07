@@ -11,15 +11,18 @@ from grazer.core import crawler
 @click.option("--config")
 @click.option("--log_level", default="INFO")
 @click.option("--debug/--info", default=False)
-def main(env, config, log_level, debug):
+@click.option("--output", default="/dev/null")
+def main(env, config, log_level, debug, output):
     if debug:
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=getattr(logging, log_level))
     load_dotenv(env)
     cfg = Config(config)
-    for record, link in crawler.create(cfg):
-        print(record)
+
+    with open(output, "w") as f:
+        for record, link in crawler.create(cfg):
+            f.write("({0}, {1})\n".format(record, link))
 
 if __name__ == "__main__":
     main()
