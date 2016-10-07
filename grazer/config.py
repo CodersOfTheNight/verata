@@ -142,7 +142,7 @@ class Config(object):
 
     @property
     def root(self):
-        return self._data["site_root"]
+        return self._data["site_root"].lstrip("/")
 
     @property
     def domain(self):
