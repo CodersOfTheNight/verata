@@ -2,9 +2,13 @@ import os
 import re
 import yaml
 import importlib
+import logging
 
 from functools import reduce
 from jinja2 import Template
+
+
+logger = logging.getLogger(__name__)
 
 
 def pattern_to_regex(patt):
@@ -55,7 +59,11 @@ class Page(object):
             self._mappings = []
 
     def matches_link_pattern(self, url):
-        return self.matcher.search(url) is not None
+        result = self.matcher.search(url) is not None
+        logger.debug("{0} matches {1} ? {2}".format(url,
+                                                    self._data["link_pattern"],
+                                                    result))
+        return result
 
     @property
     def mappings(self):
