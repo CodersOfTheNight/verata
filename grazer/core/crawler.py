@@ -19,6 +19,9 @@ def extract_links(page):
 
 
 def trim_link(link, domain):
+    if link is None:
+        return None
+
     if not link.startswith("http"):
         return ("/" if link[0] != "/" else "") + link
 
