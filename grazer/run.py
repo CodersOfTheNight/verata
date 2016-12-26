@@ -15,10 +15,17 @@ logger = logging.getLogger("Verata")
               default="INFO",
               help="Defines a log level",
               type=click.Choice(["DEBUG", "INFO", "TRACE"]))
-@click.option("--debug", default=False, is_flag=True,
+@click.option("--debug",
+              default=False,
+              is_flag=True,
               help="Shortcut for DEBUG log level")
-@click.option("--output", help="All results goes here", is_eager=True)
+@click.option("--output", help="All results goes here",
+              prompt="Enter output file name")
 def main(env, config, log_level, debug, output):
+    if output is None:
+        logger.error("Please provide output file")
+        exit()
+
     if debug:
         logging.basicConfig(level=logging.DEBUG)
     else:
