@@ -19,10 +19,10 @@ def get_session(cookies=None):
 def extract_links(page, ignore_hashes=True):
     gen = [a.get("href") for a in page.find_all("a")]
     if ignore_hashes:
-        return map(lambda x: x.split("#")[0],
-                   filter(lambda x: x is not None, gen))
+        return list(set(map(lambda x: x.split("#")[0],
+                        filter(lambda x: x is not None, gen))))
     else:
-        return gen
+        return list(set(gen))
 
 
 def trim_link(link, domain):
