@@ -70,7 +70,7 @@ class Page(object):
         return self._mappings
 
     @property
-    def page(self):
+    def name(self):
         return self._data["name"]
 
 
