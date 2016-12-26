@@ -1,9 +1,11 @@
 import click
 import logging
+import time
 
 from dotenv import load_dotenv, find_dotenv
 from grazer.config import Config
 from grazer.core import crawler
+from grazer.util import time_convert, grouper
 
 logger = logging.getLogger("Verata")
 
@@ -21,7 +23,14 @@ logger = logging.getLogger("Verata")
               help="Shortcut for DEBUG log level")
 @click.option("--output", help="All results goes here",
               prompt="Enter output file name")
-def main(env, config, log_level, debug, output):
+@click.option("--paginate",
+              help="Split results into pages by",
+              default=10,
+              type=int)
+@click.option("--rest_interval",
+              help="How long to wait before fetching next page",
+              default="0s")
+def main(env, config, log_level, debug, output, paginate, rest_interval):
     if output is None:
         logger.error("Please provide output file")
         exit()
@@ -32,11 +41,16 @@ def main(env, config, log_level, debug, output):
         logging.basicConfig(level=getattr(logging, log_level))
     load_dotenv(env)
     cfg = Config(config)
+    rest = time_convert(rest_interval)
 
     with open(output, "w") as f:
-        for record, link in crawler.create(cfg):
-            logging.debug("Record: {0} Link: {1}".format(record, link))
-            f.write("({0}, {1})\n".format(record, link))
+        for chunk in grouper(paginate, crawler.create(cfg)):
+            for record, link in chunk:
+                logging.debug("Record: {0} Link: {1}".format(record, link))
+                f.write("({0}, {1})\n".format(record, link))
+
+            if rest > 0:
+                time.sleep(rest)
 
 
 if __name__ == "__main__":

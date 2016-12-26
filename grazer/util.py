@@ -1,3 +1,6 @@
+from itertools import zip_longest
+
+
 def time_convert(span):
     time_char = span[-1]
     val = span[:-1]
@@ -9,3 +12,8 @@ def time_convert(span):
         return int(val) * 3600
     else:
         raise RuntimeError("Unknown time format char: '{0}'".format(time_char))
+
+
+def grouper(n, iterable):
+    args = [iter(iterable)] * n
+    return zip_longest(fillvalue=None, *args)
