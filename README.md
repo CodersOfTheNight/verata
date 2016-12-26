@@ -93,6 +93,8 @@ It is done like this, because usually there are some variables we don't want to 
 Version history
 ---------------
 1.1:
-	- args parsed from same page are grouped into array
-	- selected elements by `path` now provides all atributes together with element text
+  - args parsed from same page are grouped into array
+  
+  - selected elements by `path` now provides all atributes together with element text
+  
 1.0 - basic functionallity
