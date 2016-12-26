@@ -1,4 +1,4 @@
-from itertools import zip_longest
+from six.moves import zip_longest
 
 
 def time_convert(span):
