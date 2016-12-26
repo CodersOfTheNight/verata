@@ -99,7 +99,7 @@ def create(config):
                     filter(lambda x: x is not None,
                            [trim_link(l, domain)
                             for l in extract_links(data,
-                                                   config.ignore_hashes()
+                                                   config.ignore_hashes
                                                    )
                             ]))
 
