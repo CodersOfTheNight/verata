@@ -31,6 +31,16 @@ Docs
 ----
 [http://verata.readthedocs.io](http://verata.readthedocs.io/en/latest/)
 
+CLI Params
+----------
+- `--env` - environment file (default: .env). It is used to cointain variables which you don't want to expose in config (eg. password, username)
+- `--config` - congiration file (default: config.yml)
+- `--log_level` - select logging level (default: INFO)
+- `--debug` - shortcut for logging level DEBUG
+- `--output` - file in which results are being kept
+- `--paginate` - (Only makes sense if `rest_interval` is more than 0 seconds) crawl pages in chunks, resting after each chunk. Used to avoid being banned/bring site down.
+- `--rest_interval` - time to rest between chunks (default: `10s`). Letter at the end tells in which format: `s` - seconds, `m` - minutes, `h` - hours.
+
 Config example
 --------------
 ```yaml
@@ -79,3 +89,10 @@ secret_password=demo
 ```
 
 It is done like this, because usually there are some variables we don't want to expose in config and put to any source control system.
+
+Version history
+---------------
+1.1:
+	- args parsed from same page are grouped into array
+	- selected elements by `path` now provides all atributes together with element text
+1.0 - basic functionallity
