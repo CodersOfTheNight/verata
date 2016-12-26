@@ -57,7 +57,8 @@ def test_mapping(simple_html):
     root = BeautifulSoup(simple_html, "html.parser")
     m = Mapping("link1", "a[id=\"link1\"]")
     result = m.parse(root)
-    expected = [("link1", root.find("a", {"id": "link1"}).text)]
+    q = root.find("a", {"id": "link1"})
+    expected = [("link1", q.text, q.attrs)]
 
     assert result == expected
 
@@ -114,7 +115,8 @@ class TestConfig(object):
         root = BeautifulSoup(simple_html, "html.parser")
         m = Mapping("link", "a{2}")
         result = m.parse(root)
-        expected = [("link", root.findAll("a")[2].text)]
+        q = root.findAll("a")[2]
+        expected = [("link", q.text, q.attrs)]
 
         assert result == expected
 

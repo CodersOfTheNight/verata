@@ -9,7 +9,8 @@ logging.basicConfig()
 def test_scrape_python_org():
     cfg = Config("tests/data/python_org.yml")
     worker = crawler.create(cfg)
-    (key, val), link = next(worker)
+    data, link = next(worker)
+    (key, text, attrs) = data[0]
     assert key == "title"
 
 
