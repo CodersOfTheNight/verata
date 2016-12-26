@@ -92,8 +92,9 @@ def create(config):
             logger.info("Scrapping: {0} using '{1}' page rules"
                         .format(link, page.name))
             for mapping in page.mappings:
-                for result in mapping.parse(data):
-                    yield result, link
+                parsed_data = [result
+                               for result in mapping.parse(data)]
+                yield list(parsed_data), link
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,

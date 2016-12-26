@@ -120,7 +120,8 @@ class Mapping(object):
             for node in context:
                 for out in path(node):
                     results.append(out)
-        return [(self.key, result.text) for result in results]
+        return [(self.key, result.text, result.attrs)
+                for result in results]
 
 
 class Config(object):
