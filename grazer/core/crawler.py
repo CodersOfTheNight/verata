@@ -57,12 +57,14 @@ def create(config):
     visited = []
 
     if config.has_auth():
+        logger.info("Doing authentification")
         auth = config.auth
         req = requests.Request(auth.method,
                                "{0}/{1}".format(root, auth.url),
                                data=auth.params)
         resp = session.send(req.prepare())
-        if resp.status_code > 400:
+        logger.debug("Auth status code: {0}".format(resp.status_code))
+        if resp.status_code >= 400:
             raise RuntimeError("Unable to do authentification")
 
     while len(queue) > 0:
