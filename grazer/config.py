@@ -218,5 +218,9 @@ class Config(object):
 
         return importlib.import_module(module)
 
+    @property
+    def ignore_hashes(self):
+        return self._data.get("ignore_hashes", True)
+
     def get_val(self, key):
         return self._data["vars"][key]

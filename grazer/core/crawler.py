@@ -16,8 +16,12 @@ def get_session(cookies=None):
     return session
 
 
-def extract_links(page):
-    return [a.get("href") for a in page.find_all("a")]
+def extract_links(page, ignore_hashes=True):
+    gen = [a.get("href") for a in page.find_all("a")]
+    if ignore_hashes:
+        return map(lambda x: x.split("#")[0], gen)
+    else:
+        return gen
 
 
 def trim_link(link, domain):
@@ -79,21 +83,25 @@ def create(config):
 
         visited.append(link)
 
-        for page in pages:
-            if page.matches_link_pattern(link):
-                logger.info("Scrapping: {0} using '{1}' page rules"
-                            .format(link, page.name))
-                for mapping in page.mappings:
-                    for result in mapping.parse(data):
-                        yield result, link
+        relevant_pages = [page
+                          for page in pages
+                          if page.matches_link_pattern(link)]
+
+        for page in relevant_pages:
+            logger.info("Scrapping: {0} using '{1}' page rules"
+                        .format(link, page.name))
+            for mapping in page.mappings:
+                for result in mapping.parse(data):
+                    yield result, link
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,
                            [trim_link(l, domain)
-                            for l in extract_links(data)]))
+                            for l in extract_links(data, config.ignore_hashes())]))
 
-        for link in links:
-            if link not in visited:
-                queue.append(link)
+        for l in set([l
+                      for l in links
+                      if l not in visited]):
+            queue.append(l)
 
         logger.debug("Queued links: {0}".format(queue))
