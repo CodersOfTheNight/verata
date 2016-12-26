@@ -13,7 +13,7 @@ logger = logging.getLogger("Verata")
 @click.option("--config")
 @click.option("--log_level", default="INFO")
 @click.option("--debug/--info", default=False)
-@click.option("--output", default="/dev/null")
+@click.option("--output")
 def main(env, config, log_level, debug, output):
     if debug:
         logging.basicConfig(level=logging.DEBUG)
