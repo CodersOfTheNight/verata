@@ -97,7 +97,10 @@ def create(config):
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,
                            [trim_link(l, domain)
-                            for l in extract_links(data, config.ignore_hashes())]))
+                            for l in extract_links(data,
+                                                   config.ignore_hashes()
+                                                   )
+                            ]))
 
         for l in set([l
                       for l in links
