@@ -69,6 +69,10 @@ class Page(object):
     def mappings(self):
         return self._mappings
 
+    @property
+    def page(self):
+        return self._data["name"]
+
 
 class Mapping(object):
 

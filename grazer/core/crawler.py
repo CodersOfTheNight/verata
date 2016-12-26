@@ -69,7 +69,6 @@ def create(config):
 
     while len(queue) > 0:
         link = queue.popleft()
-        logger.info("Scrapping: {0}".format(link))
         try:
             data = reader.read_page(session, link, parser, headers, proxies)
             logger.debug("Retrieved data: {0}".format(data))
@@ -82,6 +81,8 @@ def create(config):
 
         for page in pages:
             if page.matches_link_pattern(link):
+                logger.info("Scrapping: {0} using '{1}' page rules"
+                            .format(link, page.name))
                 for mapping in page.mappings:
                     for result in mapping.parse(data):
                         yield result, link
