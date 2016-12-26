@@ -27,5 +27,6 @@ def main(env, config, log_level, debug, output):
             logging.debug("Record: {0} Link: {1}".format(record, link))
             f.write("({0}, {1})\n".format(record, link))
 
+
 if __name__ == "__main__":
     main()
