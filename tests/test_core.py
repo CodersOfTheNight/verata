@@ -24,7 +24,7 @@ def test_extract_links():
                 "http://example.com/lacie",
                 "http://example.com/tillie"]
 
-    assert links == expected
+    assert set(links) == set(expected)
 
 
 def test_link_trimmer():
