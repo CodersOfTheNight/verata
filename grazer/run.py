@@ -9,11 +9,15 @@ logger = logging.getLogger("Verata")
 
 
 @click.command()
-@click.option("--env", default=find_dotenv())
-@click.option("--config")
-@click.option("--log_level", default="INFO")
-@click.option("--debug/--info", default=False)
-@click.option("--output")
+@click.option("--env", default=find_dotenv(), help="Environment file")
+@click.option("--config", help="Configuration file")
+@click.option("--log_level",
+              default="INFO",
+              help="Defines a log level",
+              type=click.Choice(["DEBUG", "INFO", "TRACE"]))
+@click.option("--debug", default=False, is_flag=True,
+              help="Shortcut for DEBUG log level")
+@click.option("--output", help="All results goes here", is_eager=True)
 def main(env, config, log_level, debug, output):
     if debug:
         logging.basicConfig(level=logging.DEBUG)
