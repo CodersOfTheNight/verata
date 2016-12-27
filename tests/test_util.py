@@ -19,3 +19,9 @@ class TestGrouper(object):
         seq = range(0, 10)
         result = list(grouper(2, seq))
         assert len(result) == 5
+
+    def test_odd_seq(self):
+        seq = range(0, 10)
+        result = list(grouper(3, seq))
+        assert len(result) == 4
+        assert result[-1] == (9, None, None)
