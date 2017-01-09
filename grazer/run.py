@@ -22,14 +22,17 @@ logger = logging.getLogger("Verata")
               help="Shortcut for DEBUG log level")
 @click.option("--output", help="All results goes here",
               prompt="Enter output file name")
+@click.option("--config", help="Configuration file")
 @click.pass_context
-def main(ctx, env, log_level, debug, output):
+def main(ctx, env, log_level, debug, output, config):
     if output is None:
         logger.error("Please provide output file")
         exit()
     else:
         click.echo(ctx)
         ctx.meta["output"] = output
+
+    ctx.meta["config"] = config
 
     if debug:
         logging.basicConfig(level=logging.DEBUG)
@@ -41,11 +44,11 @@ def main(ctx, env, log_level, debug, output):
 @main.command()
 @click.pass_context
 def scrape(ctx):
-    click.echo(ctx.meta["output"])
+    cfg = Config(ctx.meta["config"])
+    output = ctx.meta["output"]
 
 
 @main.command()
-@click.option("--config", help="Configuration file")
 @click.option("--paginate",
               help="Split results into pages by",
               default=10,
@@ -53,9 +56,11 @@ def scrape(ctx):
 @click.option("--rest_interval",
               help="How long to wait before fetching next page",
               default="0s")
-def crawl(config, paginate, rest_interval, output):
+@click.pass_context
+def crawl(ctx, paginate, rest_interval, output):
     rest = time_convert(rest_interval)
-    cfg = Config(config)
+    cfg = Config(ctx.meta["config"])
+    output = ctx.meta["output"]
 
     with open(output, "w") as f:
         for chunk in grouper(paginate, crawler.create(cfg)):
