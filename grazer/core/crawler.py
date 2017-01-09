@@ -5,6 +5,8 @@ from collections import deque
 from functools import reduce
 from copy import copy
 
+from .scrapper import scrape
+
 logger = logging.getLogger(__name__)
 
 
@@ -92,9 +94,7 @@ def create(config):
             logger.info("Scrapping: {0} using '{1}' page rules"
                         .format(link, page.name))
             for mapping in page.mappings:
-                parsed_data = [result
-                               for result in mapping.parse(data)]
-                yield list(parsed_data), link
+                yield scrape(link, data, mapping)
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,
