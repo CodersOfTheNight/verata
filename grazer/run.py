@@ -10,9 +10,8 @@ from grazer.util import time_convert, grouper
 logger = logging.getLogger("Verata")
 
 
-@click.command()
+@click.group()
 @click.option("--env", default=find_dotenv(), help="Environment file")
-@click.option("--config", help="Configuration file")
 @click.option("--log_level",
               default="INFO",
               help="Defines a log level",
@@ -23,6 +22,30 @@ logger = logging.getLogger("Verata")
               help="Shortcut for DEBUG log level")
 @click.option("--output", help="All results goes here",
               prompt="Enter output file name")
+@click.pass_context
+def main(ctx, env, log_level, debug, output):
+    if output is None:
+        logger.error("Please provide output file")
+        exit()
+    else:
+        click.echo(ctx)
+        ctx.meta["output"] = output
+
+    if debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=getattr(logging, log_level))
+    load_dotenv(env)
+
+
+@main.command()
+@click.pass_context
+def scrape(ctx):
+    click.echo(ctx.meta["output"])
+
+
+@main.command()
+@click.option("--config", help="Configuration file")
 @click.option("--paginate",
               help="Split results into pages by",
               default=10,
@@ -30,18 +53,9 @@ logger = logging.getLogger("Verata")
 @click.option("--rest_interval",
               help="How long to wait before fetching next page",
               default="0s")
-def main(env, config, log_level, debug, output, paginate, rest_interval):
-    if output is None:
-        logger.error("Please provide output file")
-        exit()
-
-    if debug:
-        logging.basicConfig(level=logging.DEBUG)
-    else:
-        logging.basicConfig(level=getattr(logging, log_level))
-    load_dotenv(env)
-    cfg = Config(config)
+def crawl(config, paginate, rest_interval, output):
     rest = time_convert(rest_interval)
+    cfg = Config(config)
 
     with open(output, "w") as f:
         for chunk in grouper(paginate, crawler.create(cfg)):
