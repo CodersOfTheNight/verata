@@ -134,6 +134,12 @@ class Config(object):
         with open(f, "r") as f:
             self._data = self._render(f)
 
+        if "mappings" in self._data:
+            self._mappings = [Mapping(m["name"], m["path"])
+                              for m in self._data["mappings"]]
+        else:
+            self._mappings = []
+
     def __repr__(self):
         return "{0}: {1}".format(self.name, self.desc)
 
