@@ -2,51 +2,11 @@ import requests
 import logging
 
 from collections import deque
-from functools import reduce
-from copy import copy
-
 from .scrapper import scrape
 
+from grazer.util import get_session, trim_link, extract_links
+
 logger = logging.getLogger(__name__)
-
-
-def get_session(cookies=None):
-    session = requests.Session()
-    if cookies:
-        requests.utils.add_dict_to_cookiejar(session.cookies,
-                                             cookies)
-    return session
-
-
-def extract_links(page, ignore_hashes=True):
-    gen = [a.get("href") for a in page.find_all("a")]
-    if ignore_hashes:
-        return list(set(map(lambda x: x.split("#")[0],
-                        filter(lambda x: x is not None, gen))))
-    else:
-        return list(set(gen))
-
-
-def trim_link(link, domain):
-    if link is None or len(link) == 0:
-        return None
-
-    if not link.startswith("http"):
-        return ("/" if link[0] != "/" else "") + link
-
-    if domain not in link:
-        # External link to another domain
-        logger.debug("Link {0} is not in {1} domain".format(link, domain))
-        return None
-
-    prefixes = ["https://", "http://", "://"]
-    original_link = copy(link)
-    link = reduce(lambda a, b: a.replace(b, ""), prefixes, link)
-    if "/" in link:
-        start, end = link.split("/", 1)
-        return "/" + end
-    else:
-        return original_link
 
 
 def create(config):
