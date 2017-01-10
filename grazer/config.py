@@ -114,14 +114,14 @@ class Mapping(object):
         return node
 
     def parse(self, root):
-        results = []
         context = [root]
         for path in self.path:
-            for node in context:
-                for out in path(node):
-                    results.append(out)
+            node = context.pop()
+            logger.debug("Using path: {0} entering context {1}".format(path, node))
+            for out in path(node):
+                context.append(out)
         return [(self.key, result.text, result.attrs)
-                for result in results]
+                for result in context]
 
 
 class Config(object):
@@ -223,6 +223,7 @@ class Config(object):
         else:
             module = "grazer.readers.local"
 
+        logger.debug("Loading reader module: '{0}'".format(module))
         return importlib.import_module(module)
 
     @property

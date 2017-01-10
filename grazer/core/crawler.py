@@ -54,7 +54,7 @@ def create(config):
             logger.info("Scrapping: {0} using '{1}' page rules"
                         .format(link, page.name))
 
-            yield scrape(link, data, page.mappings)
+            yield scrape(data, page.mappings), link
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,

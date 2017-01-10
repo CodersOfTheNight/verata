@@ -49,7 +49,8 @@ def scrape(ctx, link):
     cfg = Config(ctx.meta["config"])
     output = ctx.meta["output"]
     with open(output, "w") as f:
-        data, _ = scrapper.scrape(link, cfg, cfg.mappings)
+        data = scrapper.fetch_page(link, cfg)
+        data = scrapper.scrape(data, cfg.mappings)
         for item in data:
             f.write(item)
 
