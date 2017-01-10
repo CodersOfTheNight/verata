@@ -5,6 +5,7 @@ import time
 from dotenv import load_dotenv, find_dotenv
 from grazer.config import Config
 from grazer.core import crawler
+from grazer.core import scrapper
 from grazer.util import time_convert, grouper
 
 logger = logging.getLogger("Verata")
@@ -22,7 +23,7 @@ logger = logging.getLogger("Verata")
               help="Shortcut for DEBUG log level")
 @click.option("--output", help="All results goes here",
               prompt="Enter output file name")
-@click.option("--config", help="Configuration file")
+@click.option("--config", help="Configuration file", prompt="Enter config")
 @click.pass_context
 def main(ctx, env, log_level, debug, output, config):
     if output is None:
@@ -42,10 +43,15 @@ def main(ctx, env, log_level, debug, output, config):
 
 
 @main.command()
+@click.option("--link", help="Site url for scrapping")
 @click.pass_context
-def scrape(ctx):
+def scrape(ctx, link):
     cfg = Config(ctx.meta["config"])
     output = ctx.meta["output"]
+    with open(output, "w") as f:
+        data, _ = scrapper.scrape(link, cfg, cfg.mappings)
+        for item in data:
+            f.write(item)
 
 
 @main.command()

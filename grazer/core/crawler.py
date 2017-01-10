@@ -53,8 +53,8 @@ def create(config):
         for page in relevant_pages:
             logger.info("Scrapping: {0} using '{1}' page rules"
                         .format(link, page.name))
-            for mapping in page.mappings:
-                yield scrape(link, data, mapping)
+
+            yield scrape(link, data, page.mappings)
 
         links = map(lambda x: root + x,
                     filter(lambda x: x is not None,

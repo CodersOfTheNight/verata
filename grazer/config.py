@@ -231,3 +231,7 @@ class Config(object):
 
     def get_val(self, key):
         return self._data["vars"][key]
+
+    @property
+    def mappings(self):
+        return self._mappings
