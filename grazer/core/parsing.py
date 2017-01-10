@@ -1,6 +1,8 @@
 import re
 import logging
 
+from functools import wraps
+
 logger = logging.getLogger("Parsing")
 
 
@@ -27,20 +29,24 @@ def create_node(data):
         else:
             return lst
 
+    @wraps("Path: {0}".format(data))
     def node(root):
         return selector(root.findAll(tag, q))
+
+    node.__name__ = data
 
     return node
 
 
 def parse(key, paths, context):
-    path = paths.pop()
+    path = paths.popleft()
     results = []
 
     for node in context:
         for out in path(node):
             results.append(out)
 
+    logger.debug("Context {0} after {1}".format(results, path.__name__))
     if len(paths) == 0:
         # End of line
         return [(key, result.text, result.attrs)

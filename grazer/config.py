@@ -6,6 +6,7 @@ import logging
 
 from functools import reduce
 from jinja2 import Template
+from collections import deque
 
 from grazer.core.parsing import create_node, parse
 
@@ -88,7 +89,7 @@ class Mapping(object):
                      for part in pattern.split("/")]
 
     def parse(self, root):
-        return parse(self.key, self.path, [root])
+        return parse(self.key, deque(self.path), [root])
 
 
 class Config(object):
