@@ -20,7 +20,7 @@ def example_html():
                                 <a href=#>Incorrect</a>
                             </li>
                             <li class="deep">
-                                <a href=#>Deepest one</a>
+                                <a href='http://magic-link'>Deepest one</a>
                             </li>
                         </ul>
                     </li>
@@ -47,4 +47,10 @@ def test_2_depth(example_html):
 def test_4_depth(example_html):
     mapping = Mapping("link", "ul/li/ul/li[class=\"deep\"]/a")
     result = mapping.parse(example_html)
-    assert result[0] == ("link", "Deepest one", {"href": "#"})
+    assert result[0] == ("link", "Deepest one", {"href": "http://magic-link"})
+
+
+def test_attr_selector(example_html):
+    mapping = Mapping("link", "ul/li/ul/li[class=\"deep\"]/a.href")
+    result = mapping.parse(example_html)
+    assert result[0] == ("link", "http://magic-link", {"href": "http://magic-link"})
