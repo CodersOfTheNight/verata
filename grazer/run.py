@@ -51,8 +51,8 @@ def scrape(ctx, link):
     with open(output, "w") as f:
         data = scrapper.fetch_page(link, cfg)
         data = scrapper.scrape(data, cfg.mappings)
-        for item in data:
-            f.write(item)
+        for title, info, meta in data:
+            f.write("{0}, {1}\n".format(title, info))
 
 
 @main.command()
