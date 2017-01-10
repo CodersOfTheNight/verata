@@ -13,3 +13,6 @@ pages:
     mappings: 
       - name: title
         path: h3[class="event-title"]/a
+mappings:
+  - name: title
+    path: h3[class="event-title"]/a
