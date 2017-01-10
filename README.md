@@ -97,6 +97,9 @@ It is done like this, because usually there are some variables we don't want to 
 
 Version history
 ---------------
+1.2:
+  - introduced scraping functionallity
+  - fixed some bugs in data collection process
 1.1:
   - args parsed from same page are grouped into array
   
