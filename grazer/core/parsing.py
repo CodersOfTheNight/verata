@@ -1,8 +1,6 @@
 import re
 import logging
 
-from functools import wraps
-
 logger = logging.getLogger("Parsing")
 
 
@@ -48,7 +46,6 @@ def create_node(data):
 
             return map(mutate_item, lst)
 
-    @wraps("Path: {0}".format(data))
     def node(root):
         return attr_selector(selector(root.findAll(tag, q)))
 
