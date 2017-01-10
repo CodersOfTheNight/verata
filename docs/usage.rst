@@ -42,3 +42,8 @@ if we have :
 following query can be used to retrieve "Link2":
 div[class="menu"]/a{1}
 where "a{1}" indicates that we want to retrieve all links, and get 2nd link from that array
+
+To select concrete data from element, attribute selector can be used. 
+Notation starts with a '.' followed by attribute name (eg. href, class, src etc.)
+Retrieving concrete link would look like:
+div[class="menu"]/a{1}.href
