@@ -33,12 +33,16 @@ def create_node(data):
     return node
 
 
-def parse(key, paths, root):
-    context = [root]
-    for path in paths:
-        node = context.pop()
-        logger.debug("Using path: {0} entering context {1}".format(path, node))
-        for out in path(node):
-            context.append(out)
-    return [(key, result.text, result.attrs)
-            for result in context]
+def parse(key, paths, context):
+    path = paths.pop()
+    results = []
+
+    if len(paths) == 0:
+        # End of line
+        return [(key, result.text, result.attrs)
+                for result in context]
+    else:
+        for node in context:
+            for out in path(node):
+                results.append(out)
+        return parse(key, paths, results)

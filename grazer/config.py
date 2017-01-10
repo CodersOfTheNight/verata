@@ -88,7 +88,7 @@ class Mapping(object):
                      for part in pattern.split("/")]
 
     def parse(self, root):
-        return parse(self.key, self.path, root)
+        return parse(self.key, self.path, [root])
 
 
 class Config(object):
