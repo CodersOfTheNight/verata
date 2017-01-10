@@ -10,7 +10,8 @@ def create_node(data):
     tag_part = r"(?P<tag>\w+)"
     attr_part = r"(?P<q>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?"
     selector_part = r"(\{(?P<selector>\d+)\})?"
-    p = tag_part + attr_part + selector_part
+    attr_selector_part = r"(?P<as>\.(\w|[_])+)?"
+    p = tag_part + attr_part + selector_part + attr_selector_part
     patt = re.compile(p)
 
     m = patt.match(data)
@@ -26,6 +27,13 @@ def create_node(data):
         if s:
             sel = int(s)
             return [lst[sel]] if sel < len(lst) else []
+        else:
+            return lst
+
+    def attr_selector(lst):
+        f = m.group("as")
+        if f:
+            return [item[f] for item in lst]
         else:
             return lst
 
