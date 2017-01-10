@@ -42,3 +42,9 @@ def test_2_depth(example_html):
     mapping = Mapping("link", "ul/li/a")
     result = mapping.parse(example_html)
     assert result[0] == ("link", "Nested Link", {"href": "#"})
+
+
+def test_4_depth(example_html):
+    mapping = Mapping("link", "ul/li/ul/li[class=\"deep\"]/a")
+    result = mapping.parse(example_html)
+    assert result[0] == ("link", "Deepest one", {"href": "#"})
