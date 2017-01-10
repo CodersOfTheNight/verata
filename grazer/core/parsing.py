@@ -37,12 +37,13 @@ def parse(key, paths, context):
     path = paths.pop()
     results = []
 
+    for node in context:
+        for out in path(node):
+            results.append(out)
+
     if len(paths) == 0:
         # End of line
         return [(key, result.text, result.attrs)
-                for result in context]
+                for result in results]
     else:
-        for node in context:
-            for out in path(node):
-                results.append(out)
         return parse(key, paths, results)
