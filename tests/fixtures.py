@@ -15,7 +15,7 @@ def example_html():
                     <li>
                         <ul>
                             <li>
-                                <a href=#>Incorrect</a>
+                                <a href='http://magic-link/#/with-hash'>Incorrect</a>
                             </li>
                             <li class="deep">
                                 <a href='http://magic-link'>Deepest one</a>

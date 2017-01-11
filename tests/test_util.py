@@ -1,6 +1,7 @@
 import pytest
 
-from grazer.util import time_convert, grouper
+from grazer.util import time_convert, grouper, extract_links
+from .fixtures import example_html
 
 
 class TestTimeConvert(object):
@@ -31,3 +32,15 @@ class TestGrouper(object):
         result = list(grouper(3, seq))
         assert len(result) == 4
         assert result[-1] == (9, None, None)
+
+
+class TestLinkExtract(object):
+
+    def test_extract_wo_hashes(self, example_html):
+        result = extract_links(example_html, ignore_hashes=True)
+        assert len(result) == 1
+        assert result[0] == "http://magic-link"
+
+    def test_extract_w_hashes(self, example_html):
+        result = extract_links(example_html, ignore_hashes=False)
+        assert "http://magic-link/#/with-hash" in result
