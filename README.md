@@ -21,14 +21,15 @@ It is tested on Python versions:
 
 Usage
 -----
-*As crawler*(Travel trough whole page):
+**As crawler**(Travel trough whole page):
+
 `verata --config=config-file.yml --output=<output_file> crawl`
 
 Optionally you can setup environment file:
 
 `verata --config=config-file.yml --env=.secret-env --output=<output_file> crawl`
 
-*As scraper*(Only read concrete link):
+**As scraper**(Only read concrete link):
 
 `verata --config=config-file.yml --output=<output_file> scrape --link=<actual url>`
 
