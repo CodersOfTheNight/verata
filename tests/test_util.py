@@ -59,3 +59,6 @@ class TestLinkExtract(object):
         link = "http://google.com"
         result = trim_link(link, "magic-link.dev")
         assert result is None
+
+    def test_trim_empty_link(self):
+        assert trim_link(None, "magic-link.dev") is None
