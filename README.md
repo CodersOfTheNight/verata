@@ -21,11 +21,16 @@ It is tested on Python versions:
 
 Usage
 -----
-`verata --config=config-file.yml --output=<output_file>`
+*As crawler*(Travel trough whole page):
+`verata --config=config-file.yml --output=<output_file> crawl`
 
 Optionally you can setup environment file:
 
-`verata --config=config-file.yml --env=.secret-env --output=<output_file>`
+`verata --config=config-file.yml --env=.secret-env --output=<output_file> crawl`
+
+*As scraper*(Only read concrete link):
+
+`verata --config=config-file.yml --output=<output_file> scrape --link=<actual url>`
 
 Docs
 ----
@@ -92,6 +97,9 @@ It is done like this, because usually there are some variables we don't want to 
 
 Version history
 ---------------
+1.2:
+  - introduced scraping functionallity
+  - fixed some bugs in data collection process
 1.1:
   - args parsed from same page are grouped into array
   

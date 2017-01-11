@@ -6,6 +6,9 @@ import logging
 
 from functools import reduce
 from jinja2 import Template
+from collections import deque
+
+from grazer.core.parsing import create_node, parse
 
 
 logger = logging.getLogger(__name__)
@@ -82,46 +85,11 @@ class Mapping(object):
 
     def __init__(self, key, pattern):
         self.key = key
-        self.path = [self.create_node(part)
+        self.path = [create_node(part)
                      for part in pattern.split("/")]
 
-    def create_node(self, data):
-        tag_part = r"(?P<tag>\w+)"
-        attr_part = r"(?P<q>\[(?P<attr>\w+)=(\"|\')(?P<val>.+?)(\"|\')\])?"
-        selector_part = r"(\{(?P<selector>\d+)\})?"
-        p = tag_part + attr_part + selector_part
-        patt = re.compile(p)
-
-        m = patt.match(data)
-        tag = m.group("tag")
-
-        if m.group("q"):
-            q = {m.group("attr"): m.group("val")}
-        else:
-            q = None
-
-        def selector(lst):
-            s = m.group("selector")
-            if s:
-                sel = int(s)
-                return [lst[sel]] if sel < len(lst) else []
-            else:
-                return lst
-
-        def node(root):
-            return selector(root.findAll(tag, q))
-
-        return node
-
     def parse(self, root):
-        results = []
-        context = [root]
-        for path in self.path:
-            for node in context:
-                for out in path(node):
-                    results.append(out)
-        return [(self.key, result.text, result.attrs)
-                for result in results]
+        return parse(self.key, deque(self.path), [root])
 
 
 class Config(object):
@@ -133,6 +101,12 @@ class Config(object):
     def __init__(self, f):
         with open(f, "r") as f:
             self._data = self._render(f)
+
+        if "mappings" in self._data:
+            self._mappings = [Mapping(m["name"], m["path"])
+                              for m in self._data["mappings"]]
+        else:
+            self._mappings = []
 
     def __repr__(self):
         return "{0}: {1}".format(self.name, self.desc)
@@ -217,6 +191,7 @@ class Config(object):
         else:
             module = "grazer.readers.local"
 
+        logger.debug("Loading reader module: '{0}'".format(module))
         return importlib.import_module(module)
 
     @property
@@ -225,3 +200,7 @@ class Config(object):
 
     def get_val(self, key):
         return self._data["vars"][key]
+
+    @property
+    def mappings(self):
+        return self._mappings

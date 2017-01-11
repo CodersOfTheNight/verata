@@ -42,3 +42,43 @@ if we have :
 following query can be used to retrieve "Link2":
 div[class="menu"]/a{1}
 where "a{1}" indicates that we want to retrieve all links, and get 2nd link from that array
+
+To select concrete data from element, attribute selector can be used. 
+Notation starts with a '.' followed by attribute name (eg. href, class, src etc.)
+Retrieving concrete link would look like:
+div[class="menu"]/a{1}.href
+
+
+CLI
+----
+Verata can operate in two modes:
+  #. as crawler - reading all links and traveling through whole page
+  #. as scraper - just getting data from concrete link
+
+**General params**
+
+============   =======================================
+Param          Explanation
+============   =======================================
+--env          Path where your environment file lives          
+--log-level    Setup how much logging info you want to see
+--debug        Shortcut to --log-level=DEBUG
+--output       File where output will be put
+--config       Config file
+============   =======================================
+
+**Operating as crawler**
+
+================   =======================================
+Param              Explanation
+================   =======================================
+--paginate         Size of read chunks (default: 10)          
+--rest_interval    Time to rest after each chunk
+================   =======================================
+
+**Operating as scraper**
+================   =======================================
+Param              Explanation
+================   =======================================
+--link             Link to page you want to scrape          
+================   =======================================
