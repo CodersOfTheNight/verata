@@ -34,13 +34,22 @@ def get_session(cookies=None):
     return session
 
 
+def filter_empty(lst):
+    def empty(x):
+        return (x is None) or (len(x) == 0)
+
+    return filter(lambda x: not empty(x), lst)
+
+
 def extract_links(page, ignore_hashes=True):
     gen = [a.get("href") for a in page.find_all("a")]
     if ignore_hashes:
-        return list(set(map(lambda x: x.split("#")[0],
-                        filter(lambda x: x is not None, gen))))
+        result = map(lambda x: x.split("#")[0],
+                     filter(lambda x: x is not None, gen))
     else:
-        return list(set(gen))
+        result = gen
+
+    return list(set(map(lambda x: x.rstrip("/"), filter_empty(result))))
 
 
 def trim_link(link, domain):
