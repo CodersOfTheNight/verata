@@ -101,6 +101,7 @@ Version history
 1.2:
   - introduced scraping functionallity
   - fixed some bugs in data collection process
+  
 1.1:
   - args parsed from same page are grouped into array
   
