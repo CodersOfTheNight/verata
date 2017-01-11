@@ -1,6 +1,6 @@
 import pytest
 
-from grazer.util import time_convert, grouper, extract_links
+from grazer.util import time_convert, grouper, extract_links, trim_link
 from .fixtures import example_html
 
 
@@ -44,3 +44,18 @@ class TestLinkExtract(object):
     def test_extract_w_hashes(self, example_html):
         result = extract_links(example_html, ignore_hashes=False)
         assert "http://magic-link/#/with-hash" in result
+
+    def test_trim_link_absolute(self):
+        link = "http://magic-link.dev/something-good"
+        result = trim_link(link, "magic-link.dev")
+        assert result == "/something-good"
+
+    def test_trim_link_relative(self):
+        link = "/something-good"
+        result = trim_link(link, "magic-link.dev")
+        assert result == "/something-good"
+
+    def test_trim_link_external_domain(self):
+        link = "http://google.com"
+        result = trim_link(link, "magic-link.dev")
+        assert result is None
