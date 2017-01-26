@@ -48,11 +48,12 @@ def main(ctx, env, log_level, debug, output, config):
 def scrape(ctx, link):
     cfg = Config(ctx.meta["config"])
     output = ctx.meta["output"]
+    w = cfg.writer
     with open(output, "w") as f:
         data = scrapper.fetch_page(link, cfg)
         data = scrapper.scrape(data, cfg.mappings)
         for title, info, meta in data:
-            f.write("{0}, {1}\n".format(title, info))
+            w.write_result(f, title, info, meta)
 
 
 @main.command()
@@ -68,6 +69,7 @@ def crawl(ctx, paginate, rest_interval, output):
     rest = time_convert(rest_interval)
     cfg = Config(ctx.meta["config"])
     output = ctx.meta["output"]
+    w = cfg.writer
 
     with open(output, "w") as f:
         for chunk in grouper(paginate, crawler.create(cfg)):
@@ -75,8 +77,7 @@ def crawl(ctx, paginate, rest_interval, output):
                 continue
 
             for record, link in chunk:
-                logging.debug("Record: {0} Link: {1}".format(record, link))
-                f.write("({0}, {1})\n".format(record, link))
+                w.write_record(f, record, link)
 
             if rest > 0:
                 time.sleep(rest)
