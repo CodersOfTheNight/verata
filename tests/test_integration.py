@@ -2,6 +2,7 @@ import logging
 
 from grazer.core import crawler, scrapper
 from grazer.config import Config
+from grazer.readers.local import get_session
 
 logging.basicConfig()
 
@@ -25,6 +26,6 @@ def test_scrape_python_org():
 
 
 def test_user_agent():
-    session = crawler.get_session()
+    session = get_session()
     resp = session.get("http://httpbin.org/user-agent", headers={"User-Agent": "test-agent"})
     assert resp.json()["user-agent"] == "test-agent"
