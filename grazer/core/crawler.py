@@ -4,7 +4,7 @@ import logging
 from collections import deque
 from .scrapper import scrape
 
-from grazer.util import get_session, trim_link, extract_links
+from grazer.util import trim_link, extract_links
 
 logger = logging.getLogger(__name__)
 
@@ -14,11 +14,11 @@ def create(config):
     domain = config.domain
     start = config.start_page
     pages = config.pages
-    session = get_session(config.cookies)
+    reader = config.reader
+    session = reader.get_session(config.cookies)
     headers = config.headers
     proxies = config.proxies
     parser = config.parser
-    reader = config.reader
 
     queue = deque(["{0}/{1}".format(root, start)])
     visited = []

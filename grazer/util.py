@@ -1,4 +1,3 @@
-import requests
 import logging
 
 from six.moves import zip_longest
@@ -24,14 +23,6 @@ def time_convert(span):
 def grouper(n, iterable):
     args = [iter(iterable)] * n
     return zip_longest(fillvalue=None, *args)
-
-
-def get_session(cookies=None):
-    session = requests.Session()
-    if cookies:
-        requests.utils.add_dict_to_cookiejar(session.cookies,
-                                             cookies)
-    return session
 
 
 def filter_empty(lst):
