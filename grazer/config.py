@@ -195,6 +195,16 @@ class Config(object):
         return importlib.import_module(module)
 
     @property
+    def writer(self):
+        if "writer" in self._data:
+            module = self._data["writer"]
+        else:
+            module = "grazer.writers.file_writer"
+
+        logger.debug("Loading writer module: '{0}'".format(module))
+        return importlib.import_module(module)
+
+    @property
     def ignore_hashes(self):
         return self._data.get("ignore_hashes", True)
 
