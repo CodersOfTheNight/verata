@@ -29,14 +29,20 @@ def create(config):
         req = requests.Request(auth.method,
                                "{0}/{1}".format(root, auth.url),
                                data=auth.params)
+
         resp = session.send(req.prepare())
         logger.debug("Auth status code: {0}".format(resp.status_code))
-        if resp.status_code >= 400:
+        if resp.status_code >= 400 or len(session.cookies.keys()) == 0:
+            logger.info("Auth response page:\n {0}".format(resp.text))
             raise RuntimeError("Unable to do authentification")
+
+        logger.debug("Session cookies after auth: {0}".format(session.cookies))
 
     while len(queue) > 0:
         link = queue.popleft()
         try:
+            logger.debug("Reading link: {0} with session<cookies: {1}>"
+                         .format(link, session.cookies))
             data = reader.read_page(session, link, parser, headers, proxies)
             logger.debug("Retrieved data: {0}".format(data))
         except Exception as ex:
